@@ -21,7 +21,6 @@ describe Facebooker2 do
       Facebooker2.configuration = {:app_id=>1234,:secret=>"secret"}
       Facebooker2.app_id.should == 1234
       Facebooker2.secret.should == "secret"
-      
     end
     
     it "raises an exception if you access a nil app_id" do
@@ -36,6 +35,12 @@ describe Facebooker2 do
       Facebooker2.load_facebooker_yaml
       Facebooker2.app_id.should == "1234fromyaml"
       Facebooker2.secret.should == "fromyaml"
+    end
+
+    it "evaluates erb in facebooker.yml" do
+      ::Rails=mock("rails",:env=>"spec",:root=>File.dirname(__FILE__))
+      Facebooker2.load_facebooker_yaml
+      Facebooker2.api_key.should == 1
     end
     
     it "raises an error if there is no configuration for the env" do
