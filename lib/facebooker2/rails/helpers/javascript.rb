@@ -7,6 +7,7 @@ module Facebooker2
           cookie = opts[:cookie]
           status = opts[:status]
           xfbml = opts[:xfbml]
+          locale = options[:locale] || "en_US"
           extra_js = capture(&proc) if block_given?
           js = <<-JAVASCRIPT
           <script>
@@ -25,13 +26,17 @@ module Facebooker2
               s.setAttribute('id','fb-root'); 
               document.documentElement.getElementsByTagName("HEAD")[0].appendChild(s);
               var e = document.createElement('script');
-              e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+              e.src = document.location.protocol + '//connect.facebook.net/#{locale}/all.js';
               e.async = true;
               s.appendChild(e);
             }());
           </script>
-        JAVASCRIPT
-        block_given? ? concat(js) : js
+          JAVASCRIPT
+          if ::Rails::VERSION::STRING > "2"
+            js.html_safe
+          else
+            block_given? ? concat(js) : js
+          end
         end
       end
     end
