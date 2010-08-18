@@ -1,3 +1,4 @@
 spec:
   app_id: 1234fromyaml
   secret: fromyaml
+  api_key: <%= 1 %>
