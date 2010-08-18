@@ -1,7 +1,7 @@
 module Facebooker2
   module Rails
     module Helpers
-      module FacebookConnect 
+      module FacebookConnect
         #
         # Render an <fb:login-button> element, similar to
         # fb_login_button. Adds a js redirect to the onlogin event via rjs.
@@ -22,16 +22,16 @@ module Facebooker2
           end
 
           text = options.delete(:text)
-          
+
           content_tag("fb:login-button",text,options.merge(:onlogin=>js))
         end
-        
+
         def fb_login(options = {},&proc)
            js = capture(&proc)
            text = options.delete(:text)
-           concat(content_tag("fb:login-button",text,options.merge(:onlogin=>js)))
+           concat(content_tag("fb:login-button",text,options.merge(:onlogin=>js)).html_safe)
         end
-        
+
         #
         # Logs the user out of facebook and redirects to the given URL
         #  args are passed to the call to link_to_function
@@ -39,11 +39,11 @@ module Facebooker2
           function= "FB.logout(function() {window.location.href = '#{url}';})"
           link_to_function text, function, *args
         end
-        
+
         def fb_server_fbml(style=nil,&proc)
           style_string=" style=\"#{style}\"" if style
           content = capture(&proc)
-          concat("<fb:serverFbml#{style_string}><script type='text/fbml'>#{content}</script></fb:serverFbml>")
+          concat("<fb:serverFbml#{style_string}><script type='text/fbml'>#{content}</script></fb:serverFbml>".html_safe)
         end
       end
     end
