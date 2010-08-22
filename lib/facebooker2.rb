@@ -29,7 +29,7 @@ module Facebooker2
 
   # when configuration is missing, raise exception
   def self.raise_unconfigured_exception
-    raise NotConfigured.new("No configuration provided for Facebooker2. Either set the app_id and secret or call Facebooker2.load_facebooker_yaml in an initializer")
+    raise NotConfigured.new("No configuration provided for Facebooker2. Either set the app_id and secret or call Facebooker2.load_facebook_yaml in an initializer")
   end
 
   # load configuration from hash
@@ -40,9 +40,9 @@ module Facebooker2
   end
 
   # read configuration from yaml config file
-  def self.load_facebooker_yaml
-    config = YAML.load(ERB.new(File.read(File.join(::Rails.root,"config","facebooker.yml"))).result)[::Rails.env]
-    raise NotConfigured.new("Unable to load configuration for #{::Rails.env} from facebooker.yml. Is it set up?") if config.nil?
+  def self.load_facebook_yaml
+    config = YAML.load(ERB.new(File.read(File.join(::Rails.root,"config","facebook.yml"))).result)[::Rails.env]
+    raise NotConfigured.new("Unable to load configuration for #{::Rails.env} from facebook.yml. Is it set up?") if config.nil?
     self.configuration = config.with_indifferent_access
   end
 
